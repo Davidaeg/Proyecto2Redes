@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package webserver;
 
 /**
@@ -24,6 +19,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
+import javax.net.ssl.SSLServerSocketFactory;
 
 public class WebServer implements Runnable{ 
 	
@@ -31,46 +27,54 @@ public class WebServer implements Runnable{
 	static final String DEFAULT_FILE = "index.html";
 	static final String FILE_NOT_FOUND = "404.html";
 	static final String METHOD_NOT_SUPPORTED = "not_supported.html";
-	// port to listen connection
+
 	static final int PORT = 8080;
+        static final boolean SERVERHTTPS = false; 
 	
 	// verbose mode
-	static final boolean verbose = true;
+	static final boolean verbose = false;
 	
-	// Client Connection via Socket Class
+	// Conexión con el cliente con sockets
 	private Socket connect;
-	
+
 	public WebServer(Socket c) {
-		connect = c;
+
+            connect = c;
+
 	}
 	
-	public static void main(String[] args) {
+	public static void iniciar() {
 		try {
-			ServerSocket serverConnect = new ServerSocket(PORT);
-			System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
+			ServerSocket serverConnect;
+                        if(SERVERHTTPS){
+                            SSLServerSocketFactory serverFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+                            serverConnect = serverFactory.createServerSocket(PORT);
+                        }else{
+                            serverConnect = new ServerSocket(PORT);
+                        }
+			System.out.println("Servidor Iniciado.\nEsperanco conexión en el puerto : " + PORT + "\n");
 			
-			// we listen until user halts server execution
 			while (true) {
 				WebServer myServer = new WebServer(serverConnect.accept());
 				
 				if (verbose) {
 					System.out.println("Connecton opened. (" + new Date() + ")");
 				}
-				
-				// create dedicated thread to manage the client connection
+
 				Thread thread = new Thread(myServer);
 				thread.start();
 			}
 			
 		} catch (IOException e) {
 			System.err.println("Server Connection error : " + e.getMessage());
-		}
+		} 
 	}
 
 	@Override
 	public void run() {
-		// we manage our particular client connection
-		BufferedReader in = null; PrintWriter out = null; BufferedOutputStream dataOut = null;
+		BufferedReader in = null; 
+                PrintWriter out = null; 
+                BufferedOutputStream dataOut = null;
 		String fileRequested = null;
 		
 		try {
@@ -119,21 +123,9 @@ public class WebServer implements Runnable{
 				if (fileRequested.endsWith("/")) {
 					fileRequested += DEFAULT_FILE;
 				}
+                                
+                                loadFiles();//Refresca la lista en caso de que haya una nueva página
 				
-				File file2 = new File(WEB_ROOT, "files");
-                                
-                                String[] files = file2.list();
-                                    
-                                
-                                File file3 = new File(WEB_ROOT, DEFAULT_FILE);
-                                BufferedWriter bw = new BufferedWriter(new FileWriter(file3)); 
-                                
-                                for ( int i = 0; i < files.length  ; i ++ ) {
-
-                                    bw.write("<a href=\"files/"+files[i]+"\">"+files[i]+"</a></br>" );
-                                } 
-                                bw.close();
-                                
                                 File file = new File(WEB_ROOT, fileRequested);
 				int fileLength = (int) file.length();
 				String content = getContentType(fileRequested);
@@ -164,11 +156,11 @@ public class WebServer implements Runnable{
 			try {
 				fileNotFound(out, dataOut, fileRequested);
 			} catch (IOException ioe) {
-				System.err.println("Error with file not found exception : " + ioe.getMessage());
+				System.err.println("Archivo no encontrado : " + ioe.getMessage());
 			}
 			
 		} catch (IOException ioe) {
-			System.err.println("Server error : " + ioe);
+			System.err.println("Error de Servidor : " + ioe);
 		} finally {
 			try {
 				in.close();
@@ -176,11 +168,11 @@ public class WebServer implements Runnable{
 				dataOut.close();
 				connect.close(); // we close socket connection
 			} catch (Exception e) {
-				System.err.println("Error closing stream : " + e.getMessage());
+				System.err.println("Error cerrando el stream : " + e.getMessage());
 			} 
 			
 			if (verbose) {
-				System.out.println("Connection closed.\n");
+				System.out.println("Conexión cerrada .\n");
 			}
 		}
 		
@@ -231,5 +223,24 @@ public class WebServer implements Runnable{
 			System.out.println("File " + fileRequested + " not found");
 		}
 	}
-	
+        
+        private void loadFiles() throws IOException{
+            
+            IndexHtml html = new IndexHtml();
+            
+            File file2 = new File(WEB_ROOT, "files");
+                                
+            String[] files = file2.list();
+
+
+            File file3 = new File(WEB_ROOT, DEFAULT_FILE);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file3)); 
+            bw.write(html.head);
+            for ( int i = 0; i < files.length  ; i ++ ) {
+
+                bw.write("<a href=\"files/"+files[i]+"\" class=\"badge badge-light page\">"+files[i]+"</a></br>" );
+            }
+            bw.write(html.footer);
+            bw.close();
+        }
 }

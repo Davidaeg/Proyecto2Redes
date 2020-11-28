@@ -17,11 +17,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 import java.util.StringTokenizer;
-import javax.net.ssl.SSLServerSocketFactory;
 
-public class WebServer implements Runnable{ 
+public class HTTPServer implements Runnable{ 
 	
 	static final File WEB_ROOT = new File(".");
 	static final String DEFAULT_FILE = "index.html";
@@ -29,44 +27,40 @@ public class WebServer implements Runnable{
 	static final String METHOD_NOT_SUPPORTED = "not_supported.html";
 
 	static final int PORT = 8080;
-        static final boolean SERVERHTTPS = false; 
-	
-	// verbose mode
-	static final boolean verbose = false;
-	
-	// Conexión con el cliente con sockets
+
 	private Socket connect;
+        
+        private static boolean running;
 
-	public WebServer(Socket c) {
-
-            connect = c;
-
+	public HTTPServer(Socket c) {
+            connect = c; 
+            running = false;
 	}
+        
+        public boolean getRunning(){
+            return running;
+        }
+        
+        public static void setRunning(boolean _runnig){
+            running = _runnig;
+        } 
 	
 	public static void iniciar() {
 		try {
 			ServerSocket serverConnect;
-                        if(SERVERHTTPS){
-                            SSLServerSocketFactory serverFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-                            serverConnect = serverFactory.createServerSocket(PORT);
-                        }else{
-                            serverConnect = new ServerSocket(PORT);
-                        }
-			System.out.println("Servidor Iniciado.\nEsperanco conexión en el puerto : " + PORT + "\n");
+
+                        serverConnect = new ServerSocket(PORT);
+                        
+			System.out.println("Servidor HTTP Iniciado.\nEsperanco conexión en el puerto : " + PORT + "\n");
 			
 			while (true) {
-				WebServer myServer = new WebServer(serverConnect.accept());
-				
-				if (verbose) {
-					System.out.println("Connecton opened. (" + new Date() + ")");
-				}
-
+				HTTPServer myServer = new HTTPServer(serverConnect.accept());
 				Thread thread = new Thread(myServer);
 				thread.start();
 			}
 			
-		} catch (IOException e) {
-			System.err.println("Server Connection error : " + e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Error en la conexión : " + e.getMessage());
 		} 
 	}
 
@@ -78,48 +72,31 @@ public class WebServer implements Runnable{
 		String fileRequested = null;
 		
 		try {
-			// we read characters from the client via input stream on the socket
 			in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-			// we get character output stream to client (for headers)
 			out = new PrintWriter(connect.getOutputStream());
-			// get binary output stream to client (for requested data)
 			dataOut = new BufferedOutputStream(connect.getOutputStream());
 			
-			// get first line of the request from the client
 			String input = in.readLine();
-			// we parse the request with a string tokenizer
 			StringTokenizer parse = new StringTokenizer(input);
-			String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
-			// we get file requested
+			String method = parse.nextToken().toUpperCase(); 
 			fileRequested = parse.nextToken().toLowerCase();
 			
-			// we support only GET and HEAD methods, we check
 			if (!method.equals("GET")  &&  !method.equals("HEAD")) {
-				if (verbose) {
-					System.out.println("501 Not Implemented : " + method + " method.");
-				}
 				
-				// we return the not supported file to the client
 				File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
 				int fileLength = (int) file.length();
-				String contentMimeType = "text/html";
-				//read content to return to client
+
 				byte[] fileData = readFileData(file, fileLength);
 					
-				// we send HTTP Headers with data to client
-				out.println("HTTP/1.1 501 Not Implemented");
-				out.println("Server: Java HTTP Server from SSaurel : 1.0");
-				out.println("Date: " + new Date());
-				out.println("Content-type: " + contentMimeType);
-				out.println("Content-length: " + fileLength);
-				out.println(); // blank line between headers and content, very important !
-				out.flush(); // flush character output stream buffer
-				// file
+				// Encabezado Http
+				out.println("HTTP/1.1");
+				out.println(); 
+				out.flush(); 
+				// archivo
 				dataOut.write(fileData, 0, fileLength);
 				dataOut.flush();
 				
 			} else {
-				// GET or HEAD method
 				if (fileRequested.endsWith("/")) {
 					fileRequested += DEFAULT_FILE;
 				}
@@ -128,27 +105,18 @@ public class WebServer implements Runnable{
 				
                                 File file = new File(WEB_ROOT, fileRequested);
 				int fileLength = (int) file.length();
-				String content = getContentType(fileRequested);
 				
-				if (method.equals("GET")) { // GET method so we return content
+				if (method.equals("GET")) { 
 					byte[] fileData = readFileData(file, fileLength);
 					
-					// send HTTP Headers
-					out.println("HTTP/1.1 200 OK");
-					out.println("Server: Java HTTP Server from SSaurel : 1.0");
-					out.println("Date: " + new Date());
-					out.println("Content-type: " + content);
-					out.println("Content-length: " + fileLength);
-					out.println(); // blank line between headers and content, very important !
-					out.flush(); // flush character output stream buffer
+					// Encabezado Http
+					out.println("HTTP/1.1");
+					out.println(); 
+					out.flush(); 
 					
 					dataOut.write(fileData, 0, fileLength);
 					dataOut.flush();
-				}
-				
-				if (verbose) {
-					System.out.println("File " + fileRequested + " of type " + content + " returned");
-				}
+				}				
 				
 			}
 			
@@ -156,27 +124,23 @@ public class WebServer implements Runnable{
 			try {
 				fileNotFound(out, dataOut, fileRequested);
 			} catch (IOException ioe) {
-				System.err.println("Archivo no encontrado : " + ioe.getMessage());
+				System.out.println("Archivo no encontrado : " + ioe.getMessage());
 			}
 			
 		} catch (IOException ioe) {
 			System.err.println("Error de Servidor : " + ioe);
-		} finally {
+		} catch(java.lang.NullPointerException ex){
+                    System.out.println("Esperando...");
+                }finally {
 			try {
 				in.close();
 				out.close();
 				dataOut.close();
-				connect.close(); // we close socket connection
+				connect.close(); 
 			} catch (Exception e) {
 				System.err.println("Error cerrando el stream : " + e.getMessage());
 			} 
-			
-			if (verbose) {
-				System.out.println("Conexión cerrada .\n");
-			}
 		}
-		
-		
 	}
 	
 	private byte[] readFileData(File file, int fileLength) throws IOException {
@@ -188,19 +152,11 @@ public class WebServer implements Runnable{
 			fileIn.read(fileData);
 		} finally {
 			if (fileIn != null) 
-				fileIn.close();
+                            fileIn.close();
 		}
-		
 		return fileData;
 	}
 	
-	// return supported MIME Types
-	private String getContentType(String fileRequested) {
-		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
-			return "text/html";
-		else
-			return "text/plain";
-	}
 	
 	private void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
 		File file = new File(WEB_ROOT, FILE_NOT_FOUND);
@@ -208,20 +164,12 @@ public class WebServer implements Runnable{
 		String content = "text/html";
 		byte[] fileData = readFileData(file, fileLength);
 		
-		out.println("HTTP/1.1 404 File Not Found");
-		out.println("Server: Java HTTP Server from SSaurel : 1.0");
-		out.println("Date: " + new Date());
-		out.println("Content-type: " + content);
-		out.println("Content-length: " + fileLength);
-		out.println(); // blank line between headers and content, very important !
-		out.flush(); // flush character output stream buffer
+		out.println("HTTP/1.1");
+		out.println(); 
+		out.flush(); 
 		
 		dataOut.write(fileData, 0, fileLength);
-		dataOut.flush();
-		
-		if (verbose) {
-			System.out.println("File " + fileRequested + " not found");
-		}
+		dataOut.flush();	
 	}
         
         private void loadFiles() throws IOException{

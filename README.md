@@ -10,7 +10,8 @@ conocer los requerimientos  para la construcción y la funcionalidad del sistema
 ###### Descargar el Repositorio
 Para obtener este repositorio debes descargarlo desde el botón código(code) y seleccionar descargar cómo zip
 
-[![Captura-de-pantalla-2020-11-10-121016.png](https://i.postimg.cc/ncmphmDx/Captura-de-pantalla-2020-11-10-121016.png)](https://postimg.cc/TpTZkp0N)
+[![Captura-de-pantalla-2020-11-28-153959.png](https://i.postimg.cc/8cX7T1Sb/Captura-de-pantalla-2020-11-28-153959.png)](https://postimg.cc/GTYLQn9B)
+
 
 Al descargarlo tendremos un .zip que debemos desempaquetar y adentro de la carpeta "ProyectoRedesII-master" 
 

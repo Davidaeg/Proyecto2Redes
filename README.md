@@ -1,1 +1,26 @@
-# Proyecto2Redes
+# ProyectoRedesII
+El siguiente manual guiara a los usuarios que harán soporte al sistema o cambios, el cual les dará a
+conocer los requerimientos  para la construcción y la funcionalidad del sistema
+
+**Requerimientos de software**
+
+  1. NetBeans IDE 8.2
+    [Link de desarga](https://netbeans.org/downloads/8.2/rc/)
+       
+###### Descargar el Repositorio
+Para obtener este repositorio debes descargarlo desde el botón código(code) y seleccionar descargar cómo zip
+
+[![Captura-de-pantalla-2020-11-10-121016.png](https://i.postimg.cc/ncmphmDx/Captura-de-pantalla-2020-11-10-121016.png)](https://postimg.cc/TpTZkp0N)
+
+Al descargarlo tendremos un .zip que debemos desempaquetar y adentro de la carpeta "ProyectoRedesII-master" 
+
+[![Captura-de-pantalla-2020-11-10-121118.png](https://i.postimg.cc/8Cp7v4RM/Captura-de-pantalla-2020-11-10-121118.png)](https://postimg.cc/0z45RpHy)
+
+Adentro de esa carpeta encontraremos el proyecto Client y el Server
+
+[![Captura-de-pantalla-2020-11-10-121908.png](https://i.postimg.cc/fR2tQFSy/Captura-de-pantalla-2020-11-10-121908.png)](https://postimg.cc/LJP6zxTF)
+
+Y listo!!! ya tenemos los dos proyectos el cliente y servidor y podremos abrirlos usando Pycharm Community Edition 2020.2 para proceder a ejecutarlos
+
+
+

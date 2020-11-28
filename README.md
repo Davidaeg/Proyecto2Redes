@@ -25,6 +25,20 @@ Buscamos el proyecto en la ruta que lo guardamos en el computador y luego presio
 
 [![4.png](https://i.postimg.cc/k4Fj1HmC/4.png)](https://postimg.cc/gXjqrNjt)
 
+**Crear el certificado**
+
+Para el servidor HTTPS el programa usa un certificado que esta dentro del proyecto, en caso de querer utilizar uno propio siga los siguientes pasos para la creación
+
+**Generar el key Store**
+
+Abrir una linea de comand, lo puede realizar escribiendo en el buscador de windows cmd
+
+[![5.png](https://i.postimg.cc/d3fSryFZ/5.png)](https://postimg.cc/8fhHVsjT)
+
+
+
+
+
 
 
 

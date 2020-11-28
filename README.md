@@ -31,9 +31,28 @@ Para el servidor HTTPS el programa usa un certificado que esta dentro del proyec
 
 **Generar el key Store**
 
-Abrir una linea de comand, lo puede realizar escribiendo en el buscador de windows cmd
+1. Abrir una linea de comand, lo puede realizar escribiendo en el buscador de windows cmd
 
 [![5.png](https://i.postimg.cc/d3fSryFZ/5.png)](https://postimg.cc/8fhHVsjT)
+
+2. Luego escriba lo siguiente en la linea de comandos donde **-alias** corresponde al nombres que usted desee el **-keyalg** es el algoritmo que se usara en este caso RSA y **-keystore** donde quiere que se almacenado y presione Enter
+
+[![6.png](https://i.postimg.cc/nrKGc9zt/6.png)](https://postimg.cc/T5wDtwgk)
+
+3. Le pedira una contraseña, escriba la que usted desee pero debe ser tener presente que deberá contener 6 caracteres con numeros y letras de lo contrario le lanzara un mensaje indicandoselo, para este ejemplo la clave que se pondra sera redes123, al presionar enter en la linea de comandos le pedira re escribirla como confirmaciób, ingresela de nuevo y presione enter
+
+[![7.png](https://i.postimg.cc/FRH4x3MT/7.png)](https://postimg.cc/JyvvrD4X)
+
+4. Escriba un nombre deseado
+
+
+
+
+
+
+
+
+
 
 
 

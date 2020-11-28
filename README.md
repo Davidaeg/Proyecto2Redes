@@ -19,11 +19,12 @@ Al descargarlo tendremos un .zip que debemos desempaquetar y adentro de la carpe
 
 Abrimos Netbeans y en File seleccionamos Open Project
 
-[![3.png](https://i.postimg.cc/Z5szjCLH/3.png)](https://postimg.cc/bZn5wYWS)
+[![3.png](https://i.postimg.cc/mDb3D2vx/3.png)](https://postimg.cc/mc51pRZV)
 
 Buscamos el proyecto en la ruta que lo guardamos en el computador y luego presionamos Open Project
 
-[4.png](https://postimg.cc/gXjqrNjt)
+[![4.png](https://i.postimg.cc/k4Fj1HmC/4.png)](https://postimg.cc/gXjqrNjt)
+
 
 
 

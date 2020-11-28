@@ -37,13 +37,42 @@ Para el servidor HTTPS el programa usa un certificado que esta dentro del proyec
 
 2. Luego escriba lo siguiente en la linea de comandos donde **-alias** corresponde al nombres que usted desee el **-keyalg** es el algoritmo que se usara en este caso RSA y **-keystore** donde quiere que se almacenado y presione Enter
 
-[![6.png](https://i.postimg.cc/nrKGc9zt/6.png)](https://postimg.cc/T5wDtwgk)
+[![9.png](https://i.postimg.cc/Bn37fsmF/9.png)](https://postimg.cc/9rxYG35X)
 
-3. Le pedira una contraseña, escriba la que usted desee pero debe ser tener presente que deberá contener 6 caracteres con numeros y letras de lo contrario le lanzara un mensaje indicandoselo, para este ejemplo la clave que se pondra sera redes123, al presionar enter en la linea de comandos le pedira re escribirla como confirmaciób, ingresela de nuevo y presione enter
+3. Le pedira una contraseña, escriba la que usted desee pero debe ser tener presente que deberá contener 6 caracteres con numeros y letras de lo contrario le lanzara un mensaje indicandoselo, para este ejemplo la clave que se pondra sera soft3095, al presionar enter en la linea de comandos le pedira re escribirla como confirmación, ingresela de nuevo y presione enter
 
 [![7.png](https://i.postimg.cc/FRH4x3MT/7.png)](https://postimg.cc/JyvvrD4X)
 
-4. Escriba un nombre deseado
+4. Escriba cada uno de los puntos que le solicitan y luego digite yes y la contraseña nuevamente
+
+[![8.png](https://i.postimg.cc/5txBn2nP/8.png)](https://postimg.cc/K1H3YxXL)
+
+5. Podemos ir a la ruta especificada y encontraremos el keystore que se creo
+
+[![10.png](https://i.postimg.cc/xd4P8S3t/10.png)](https://postimg.cc/mc79pJqH)
+
+6. Luego se exporta el .cer escribiendo lo siguiente el **-alias** que se digito al inicio en mi caso nuevoCertificado **-file** para especificar el nombre y donde queremos guardarlo y el **-keystore** del que usaremos para exportar y crear el publico y ingresamos la contraseña
+
+[![11.png](https://i.postimg.cc/1XJXRypz/11.png)](https://postimg.cc/8ffNtQX8)
+
+7. Y listo podemos ver donde se creo en la carpeta que se indico 
+
+[![12.png](https://i.postimg.cc/NfZY6yfc/12.png)](https://postimg.cc/TpjZG3D7)
+
+**Cambiar certificado y contraseña en el codigo para usar el que se genero**
+
+En la clase HTTPS debe modificar la contraseña y poner la que le asigno al certificado y la ruta donde se encuentra de la siguiente manera 
+
+[![13.png](https://i.postimg.cc/c4fZcxKt/13.png)](https://postimg.cc/WhpQNPws)
+
+Y listo de esta manera cuando corra el proyecto usara su certificado.
+
+
+
+
+
+
+
 
 
 

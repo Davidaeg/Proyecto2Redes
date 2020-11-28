@@ -13,15 +13,19 @@ Para obtener este repositorio debes descargarlo desde el botón código(code) y 
 [![Captura-de-pantalla-2020-11-28-153959.png](https://i.postimg.cc/8cX7T1Sb/Captura-de-pantalla-2020-11-28-153959.png)](https://postimg.cc/GTYLQn9B)
 
 
-Al descargarlo tendremos un .zip que debemos desempaquetar y adentro de la carpeta "ProyectoRedesII-master" 
+Al descargarlo tendremos un .zip que debemos desempaquetar y adentro de la carpeta "Proyecto2Redes-master" 
 
-[![Captura-de-pantalla-2020-11-10-121118.png](https://i.postimg.cc/8Cp7v4RM/Captura-de-pantalla-2020-11-10-121118.png)](https://postimg.cc/0z45RpHy)
+[![2.png](https://i.postimg.cc/wj86Lt0m/2.png)](https://postimg.cc/Mv528Gk6)
 
-Adentro de esa carpeta encontraremos el proyecto Client y el Server
+Abrimos Netbeans y en File seleccionamos Open Project
 
-[![Captura-de-pantalla-2020-11-10-121908.png](https://i.postimg.cc/fR2tQFSy/Captura-de-pantalla-2020-11-10-121908.png)](https://postimg.cc/LJP6zxTF)
+[![3.png](https://i.postimg.cc/Z5szjCLH/3.png)](https://postimg.cc/bZn5wYWS)
 
-Y listo!!! ya tenemos los dos proyectos el cliente y servidor y podremos abrirlos usando Pycharm Community Edition 2020.2 para proceder a ejecutarlos
+Buscamos el proyecto en la ruta que lo guardamos en el computador y luego presionamos Open Project
+
+[4.png](https://postimg.cc/gXjqrNjt)
+
+
 
 
 
